@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Moisture Sensor Data</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button id="reset-btn">Reset Position</button>
+    <div class="container">
+        <h1>Soil Moisture Sensor Data</h1>
+        <div id="sensorValue" class="sensor-value">
+            Loading...
+        </div>
+        <div id="sensorStatus" class="sensor-status">
+            <!-- Water status will be displayed here -->
+        </div>
+        <div class="level-bar-container">
+            <div id="levelBar" class="level-bar"></div>
+        </div>
+    </div>
+
+    <!-- Firebase scripts loaded from Firebase CDN -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, query, limitToLast, onChildAdded } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxDKummwyDqG-h7KEvn-_n_HhR53_QFdM",
+            authDomain: "ayaan-ki-dua.firebaseapp.com",
+            databaseURL: "https://ayaan-ki-dua-default-rtdb.firebaseio.com",
+            projectId: "ayaan-ki-dua",
+            storageBucket: "ayaan-ki-dua.appspot.com",
+            messagingSenderId: "778293311636",
+            appId: "1:778293311636:web:67fda08d5c2065e92f9c81",
+            measurementId: "G-V05738QMH3"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Reference to the Firebase database path
+        const dbRef = ref(database, 'soilMoistureSensor');
+
+        // Function to update sensor value on the webpage
+        function updateSensorValue(value) {
+            const sensorValueElement = document.getElementById('sensorValue');
+            sensorValueElement.textContent = `Current Value: ${value}`;
+            updateLevelBar(value);
+        }
+
+        // Function to update the sensor status on the webpage
+        function updateSensorStatus(status) {
+            const sensorStatusElement = document.getElementById('sensorStatus');
+            sensorStatusElement.textContent = `Status: ${status}`;
+        }
+
+        // Function to update the level bar
+        function updateLevelBar(value) {
+            const levelBar = document.getElementById('levelBar');
+            const percentage = (value / 1023) * 100;
+            levelBar.style.width = `${percentage}%`;
+        }
+
+        // Listen for the most recent value in the database
+        const recentValueQuery = query(dbRef, limitToLast(1));
+        onChildAdded(recentValueQuery, (snapshot) => {
+            const data = snapshot.val();
+            const sensorValue = data.value !== undefined ? data.value : 'N/A';
+            const sensorStatus = data.status !== undefined ? data.status : 'N/A';
+
+            updateSensorValue(sensorValue);
+            updateSensorStatus(sensorStatus);
+        });
+
+        //from here
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const container = document.querySelector('.container');
+            const resetButton = document.getElementById('reset-btn');
+            let isDragging = false;
+            let offsetX, offsetY;
+            const initialPosition = {
+                top: window.innerHeight / 2 - container.offsetHeight / 2 + 'px',
+                left: window.innerWidth / 2 - container.offsetWidth / 2 + 'px'
+            };
+
+            container.style.top = initialPosition.top;
+            container.style.left = initialPosition.left;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - container.getBoundingClientRect().left;
+                offsetY = e.clientY - container.getBoundingClientRect().top;
+                container.style.transition = 'none'; // Disable transitions during dragging
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    container.style.left = `${e.clientX - offsetX}px`;
+                    container.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                container.style.transition = ''; // Re-enable transitions
+            });
+
+            resetButton.addEventListener('click', () => {
+                container.style.top = initialPosition.top;
+                container.style.left = initialPosition.left;
+            });
+        });
+    </script>
+
+</body>
+</html>
