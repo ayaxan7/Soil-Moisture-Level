@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "ayaan-ki-dua",
+    "private_key_id": "lorem ipsum 1234",
+    "private_key": "-----BEGIN PRIVATE KEY-----jhdiuegffuf\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-1234@ayaan3454",
+    "client_id": "112345678910",
+    "auth_uri": "https://accounts.google.com",
+    "token_uri": "https://oauth2.googleapis.com/",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/",
+    "universe_domain": "googleapis.com"
+  }
