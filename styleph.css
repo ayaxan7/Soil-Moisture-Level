@@ -76,6 +76,15 @@ body {
     cursor: move; /* Changes cursor to indicate draggable element */
 }
 
+/* Middle box styling */
+.middle-box {
+    background-color: #34495E; /* Blue-gray */
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px; /* Adjusted margin for spacing */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 /* Header styling */
 h1 {
     font-size: 24px;
@@ -83,52 +92,41 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Sensor value and status styling */
-.sensor-value, .sensor-status {
-    font-size: 20px;
-    color: #E0F7FA; /* Light cyan */
-    margin-bottom: 20px;
-}
-
-/* Level bar container styling */
-.level-bar-container {
-    width: 100%;
-    background-color: #34495E; /* Blue-gray */
-    border-radius: 5px;
-    overflow: hidden;
-    height: 15px;
-}
-
-/* Level bar styling */
-.level-bar {
-    height: 100%;
-    background-color: #00BCD4; /* Cyan */
-    width: 75%; /* Example width */
-    transition: width 0.3s ease;
-}
-
-/* Status styling */
-.sensor-status {
+/* Input and button styling */
+label {
+    display: block;
     font-size: 18px;
-    color: #00BCD4; /* Cyan */
-}
-/* Speedometer container */
-.speedometer {
-    width: 200px; /* Adjust size as needed */
-    height: 100px; /* Adjust size as needed */
-    position: relative;
-    margin: 0 auto;
-    margin-bottom: 20px;
+    color: #E0F7FA; /* Light cyan */
+    margin-bottom: 10px;
 }
 
-/* Semicircle path */
-.speedometer-path {
-    transform: rotate(-180deg); /* Rotate to start from left */
-    transform-origin: center;
+input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    outline: none;
+    background-color: #fff; /* White */
+    color: #333; /* Dark gray */
+    transition: border-color 0.3s ease;
 }
 
-/* Needle */
-.speedometer-needle {
-    transition: transform 0.5s ease;
+input[type="number"]:focus {
+    border-color: #00BCD4; /* Cyan border color on focus */
 }
 
+button {
+    background-color: #00BCD4; /* Cyan */
+    color: #fff; /* White */
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #008C9E; /* Darker cyan on hover */
+}

@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav class="navbar">
+        <button class="nav-button" onclick="location.href='moist.html'">Soil Moisture</button>
+        <button class="nav-button" onclick="location.href='pH.html'">Soil pH</button>
+    </nav>
+
     <button id="reset-btn">Reset Position</button>
     <div class="container">
         <h1>Soil Moisture Sensor Data</h1>
@@ -77,8 +82,7 @@
             updateSensorStatus(sensorStatus);
         });
 
-        //from here
-
+        // JavaScript for draggable container
         document.addEventListener('DOMContentLoaded', (event) => {
             const container = document.querySelector('.container');
             const resetButton = document.getElementById('reset-btn');
