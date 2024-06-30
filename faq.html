@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrigation and Crop Health FAQ for Farmers</title>
+    <link rel="stylesheet" href="faq.css">
+</head>
+<body>
+    <nav class="navbar">
+        <button class="nav-button" onclick="location.href='index.html'">Soil Moisture</button>
+        <button class="nav-button" onclick="location.href='pH.html'">Soil pH</button>
+        <button class="nav-button" onclick="location.href='faq.html'">FAQ</button>
+    </nav>
+
+    <button id="reset-btn">Reset Position</button>
+    <div class="container">
+        <h1>Irrigation and Crop Health FAQ for Farmers</h1>
+        <br>
+        <div class="faq-container">
+            <div id="importance" class="faq">
+                <h2>Why is irrigation important?</h2>
+                <p>Irrigation is crucial for maintaining consistent crop growth and yields, especially in areas with irregular rainfall.</p>
+            </div>
+
+            <div id="types" class="faq">
+                <h2>What are the different types of irrigation systems?</h2>
+                <p>There are several types of irrigation systems, including drip irrigation, sprinkler irrigation, and surface irrigation.</p>
+            </div>
+
+            <div id="choose-system" class="faq">
+                <h2>How do I choose the right irrigation system for my farm?</h2>
+                <p>Consider factors such as soil type, crop type, water availability, and budget when choosing an irrigation system.</p>
+            </div>
+
+            <div id="frequency" class="faq">
+                <h2>How often should I water my crops?</h2>
+                <p>The frequency of watering depends on the crop type, soil type, and weather conditions. Generally, it's best to water deeply but less frequently.</p>
+            </div>
+
+            <div id="conservation" class="faq">
+                <h2>How can I conserve water while irrigating?</h2>
+                <p>Use efficient irrigation systems like drip irrigation, water at night or early morning, and regularly maintain your irrigation system to conserve water.</p>
+            </div>
+
+            <div id="problems" class="faq">
+                <h2>What are some common irrigation problems and how can they be solved?</h2>
+                <p>Common problems include clogged emitters, uneven water distribution, and over-watering. Regular maintenance and monitoring can help prevent these issues.</p>
+            </div>
+
+            <!-- New questions related to smart irrigation -->
+            <div id="smart-irrigation" class="faq">
+                <h2>What is smart irrigation?</h2>
+                <p>Smart irrigation uses technology such as sensors, weather data, and automation to optimize water use for crops, improving efficiency and conservation.</p>
+            </div>
+
+            <div id="benefits-smart-irrigation" class="faq">
+                <h2>What are the benefits of smart irrigation?</h2>
+                <p>Smart irrigation helps save water, reduce costs, improve crop yields, and minimize environmental impact by using water more efficiently and effectively.</p>
+            </div>
+
+            <div id="smart-sensors" class="faq">
+                <h2>How do smart irrigation sensors work?</h2>
+                <p>Smart irrigation sensors measure soil moisture, weather conditions, and plant needs to automatically adjust watering schedules and amounts.</p>
+            </div>
+
+            <div id="install-smart-irrigation" class="faq">
+                <h2>How do I install a smart irrigation system?</h2>
+                <p>Installing a smart irrigation system involves setting up sensors, connecting them to a central controller, and configuring the system to work with local weather data.</p>
+            </div>
+
+            <div id="cost-smart-irrigation" class="faq">
+                <h2>What is the cost of implementing smart irrigation?</h2>
+                <p>The cost of smart irrigation systems varies based on the complexity and size of the setup. Initial investment can be high, but long-term savings on water and increased crop yields often offset the cost.</p>
+            </div>
+
+            <div id="maintenance-smart-irrigation" class="faq">
+                <h2>What maintenance is required for smart irrigation systems?</h2>
+                <p>Regular maintenance for smart irrigation systems includes checking and calibrating sensors, cleaning emitters, and updating software for the control system.</p>
+            </div>
+
+            <!-- Questions related to pH and crop health -->
+            <div id="soil-ph" class="faq">
+                <h2>Why is soil pH important for crop health?</h2>
+                <p>Soil pH affects nutrient availability to plants. Different crops thrive at different pH levels.</p>
+            </div>
+
+            <div id="measuring-soil-ph" class="faq">
+                <h2>How do I measure soil pH?</h2>
+                <p>Soil pH can be measured using pH testing kits or electronic soil pH meters.</p>
+            </div>
+
+            <div id="adjusting-soil-ph" class="faq">
+                <h2>How can I adjust soil pH?</h2>
+                <p>Soil pH can be adjusted by adding amendments like lime to raise pH or sulfur to lower pH.</p>
+            </div>
+
+            <div id="effects-poor-ph" class="faq">
+                <h2>What are the effects of poor soil pH on crops?</h2>
+                <p>Poor soil pH can lead to nutrient deficiencies, reduced crop yields, and poor overall plant health.</p>
+            </div>
+
+            <div id="monitoring-pH" class="faq">
+                <h2>How often should I monitor soil pH?</h2>
+                <p>Monitoring soil pH should be done regularly, especially before planting and during the growing season.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for draggable container
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const container = document.querySelector('.container');
+            const resetButton = document.getElementById('reset-btn');
+            let isDragging = false;
+            let offsetX, offsetY;
+            const initialPosition = {
+                top: window.innerHeight / 2 - container.offsetHeight / 2 + 50 + 'px', // Shifted 50px lower
+                left: window.innerWidth / 2 - container.offsetWidth / 2 + 'px'
+            };
+
+            container.style.top = initialPosition.top;
+            container.style.left = initialPosition.left;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - container.getBoundingClientRect().left;
+                offsetY = e.clientY - container.getBoundingClientRect().top;
+                container.style.transition = 'none'; // Disable transitions during dragging
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    container.style.left = `${e.clientX - offsetX}px`;
+                    container.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                container.style.transition = ''; // Re-enable transitions
+            });
+
+            resetButton.addEventListener('click', () => {
+                container.style.top = initialPosition.top;
+                container.style.left = initialPosition.left;
+            });
+        });
+    </script>
+</body>
+
+</html>

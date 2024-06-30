@@ -8,8 +8,9 @@
 </head>
 <body>
     <nav class="navbar">
-        <button class="nav-button" onclick="location.href='moist.html'">Soil Moisture</button>
+        <button class="nav-button" onclick="location.href='index.html'">Soil Moisture</button>
         <button class="nav-button" onclick="location.href='pH.html'">Soil pH</button>
+        <button class="nav-button" onclick="location.href='faq.html'">FAQ</button>
     </nav>
 
     <button id="reset-btn">Reset Position</button>
@@ -25,34 +26,50 @@
 
     <script>
         async function fetchData() {
-            const response = await fetch(
-                "https://script.googleusercontent.com/macros/echo?user_content_key=c4Rk2vVH6bVsjfpxnYDoth8kRPaj82y5cMakcO2zjl_HYZuBswfRZrSCTgGqFBm3_RXy4qtJDRE89jiBJJPhkCC4zcGBuu1Cm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnLaNPASjBqEUQXcIQKl_YuOplfX8nHs_3SwaVN0ejXAx1wmST8RSp6Rfb_l90VPKAMHcrsv4XrGY0a_LDfVk7HQ6j2fA4S-kQQ&lib=Mgm76Ul1SdDz-8dWMZ4C91iJes7BewgY5",
-            );
-            const data = await response.json();
-            return data;
+            try {
+                const response = await fetch(
+                    "https://script.googleusercontent.com/macros/echo?user_content_key=c4Rk2vVH6bVsjfpxnYDoth8kRPaj82y5cMakcO2zjl_HYZuBswfRZrSCTgGqFBm3_RXy4qtJDRE89jiBJJPhkCC4zcGBuu1Cm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnLaNPASjBqEUQXcIQKl_YuOplfX8nHs_3SwaVN0ejXAx1wmST8RSp6Rfb_l90VPKAMHcrsv4XrGY0a_LDfVk7HQ6j2fA4S-kQQ&lib=Mgm76Ul1SdDz-8dWMZ4C91iJes7BewgY5"
+                );
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                console.log('Fetched data:', data); // Log fetched data for debugging
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return []; // Return empty array or handle error as needed
+            }
         }
 
-        function getSoilType(number, data) {
+        function getSoilTypes(number, data) {
+            const matchingTypes = [];
             for (let item of data) {
                 if (number >= item.rangeStart && number <= item.rangeEnd) {
-                    return item.soilType;
+                    matchingTypes.push(item.soilType);
                 }
             }
-            return "Unknown";
+            return matchingTypes.length > 0 ? matchingTypes : ["Unknown"];
         }
 
         async function findSoilType() {
             const resultElement = document.getElementById("result");
-            resultElement.textContent = "Fetching data..."; // Show buffering message
+            const number = parseFloat(document.getElementById("numberInput").value);
 
-            const number = parseInt(
-                document.getElementById("numberInput").value,
-            );
-            const data = await fetchData();
+            if (isNaN(number)) {
+                resultElement.textContent = "Please enter a valid number.";
+                return;
+            }
 
-            const soilType = getSoilType(number, data);
-            resultElement.textContent = "Crops Recommended: " + soilType;
+            try {
+                const data = await fetchData();
+                const soilTypes = getSoilTypes(number, data);
+                resultElement.textContent = "Crops Recommended: " + soilTypes.join(", ");
+            } catch (error) {
+                resultElement.textContent = "Failed to fetch data. Please try again later."; // Display error message
+            }
         }
+
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('soilTypeContainer');
             const resetButton = document.getElementById('reset-btn');
